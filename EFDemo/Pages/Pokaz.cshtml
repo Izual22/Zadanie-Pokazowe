@@ -1,0 +1,12 @@
+﻿@page
+@model EFDemo.Pages.PokazModel
+@{
+    <div class="text-center">
+    <p>Test</p>
+    @foreach (var item in Model.Results)
+    {
+        <p>@item.FullName @item.Year @item.IsTrue</p>
+    }
+    </div>
+
+}
