@@ -1,0 +1,17 @@
+﻿@page
+@model EFDemo.Pages.FormaModel
+@{
+
+}
+@using Kendo.Mvc.UI;
+<div>
+    <div id="Tak"></div>
+    @(Html.Kendo().Form<EFDemo.Models.Zadanie>().Name("formExample").HtmlAttributes(new{name="Index",method="POST"}).Items(items=>{
+        items.AddGroup().Label("Forma przykładowa").Items(i=>{
+           i.Add().Field(f=>f.opis).Label(l=>l.Text("Opis")); 
+           i.Add().Field(f=>f.ilość).Label(l=>l.Text("Ilość")); 
+        });
+
+        })
+        )
+</div>

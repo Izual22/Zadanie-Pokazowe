@@ -1,18 +1,23 @@
 ﻿@page
-@model IndexModel
+@model EFDemo.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    <style>
+    table, th, td {
+    border: 1px solid black;
+    }
+</style>
+    <div class="text-center">
+    <p>Lista wszystkich walut</p>
+    </div>
+    <table>
+    <thead>
+    <tr><td>Rodzaj Waluty</td><td>Ilość Monet</td><td>Wartość Waluty</td></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Results)
+    {
+       <tr><td>@item.opis</td><td> @item.ilość </td><td >@item.wartość </td><td><a class="btn-primary" href="/Edytuj?id=@item.Id">Edytuj</a><a class="btn-red" href="/Usuń?id=@item.Id">Usuń</a></td></tr>
+    }
+    </tbody>
+    </table>
 }
-
-<div class="text-center">
-    <h1 class="display-4">Witam</h1>
-    <form method="post">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName"/><br />
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName"/><br />
-        <label asp-for="Test.Year"></label>
-        <input asp-for="Test.Year"/><br />
-        <button type="submit">Zatwierdź</button>
-    </form>
-</div>

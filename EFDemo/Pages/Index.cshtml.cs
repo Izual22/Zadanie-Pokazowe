@@ -1,53 +1,43 @@
-﻿using EFDemo.Data;
 using EFDemo.Interfaces;
 using EFDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Session;
 namespace EFDemo.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly InterfejsZada� _serwis;
         private readonly ILogger<IndexModel> _logger;
-        private readonly IYearService _yearService;
         [BindProperty]
-        public Result Test { get; set; }
-        [BindProperty]
-        public String FirstName { get; set; }
-        [BindProperty]
-        public String LastName { get; set; }
-
-        public IndexModel(ILogger<IndexModel> logger,IYearService yearService)
+        public string kategoria { get; set; }
+        public List<Zadanie> Results { get; set; }
+        public IndexModel(ILogger<IndexModel> logger, InterfejsZada� yearService)
         {
             _logger = logger;
-            _yearService = yearService;
+            _serwis = yearService;
         }
         public void OnGet()
         {
-            FirstName = "";
-            LastName = "";
+            Results = _serwis.Wszystkie();
+            var wartosc = HttpContext.Session.GetString("Data");
+            kategoria = ""; 
+            if (wartosc != null)
+            {
+                kategoria = wartosc;
+            }
         }
-        public IActionResult OnPost()
+        public IActionResult OnPost()          
         {
-            Test.FullName = FirstName + " " + LastName;
-            if (Test.Year % 400 == 0)
+            if (kategoria == null)
             {
-                Test.IsTrue = "Przestępny";
+                kategoria = "";
             }
-            else if (Test.Year % 100 == 0)
-            {
-                Test.IsTrue = "Nieprzestępny";
-            }
-            else if(Test.Year % 4 == 0)
-            {
-                Test.IsTrue = "Przestępny";
-            }
-            else
-            {
-                Test.IsTrue = "Nieprzestępny";
-            }
-            _yearService.AddNewEntry(Test);
-            return Page();
+            HttpContext.Session.SetString("Data", kategoria);
+            return RedirectToPage("./Index");
         }
     }
 }
