@@ -1,0 +1,22 @@
+﻿@page
+@model EdytujModel
+@{
+    ViewData["Title"] = "Home page";
+}
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@Html.AntiForgeryToken()
+@using Kendo.Mvc.UI
+@using EFDemo.Models
+
+<div class="text-center">
+    <h1 class="display-4">Edytuj waluty</h1>
+    </div>
+    <div class="border-top">
+    <form method="post">
+     @(Html.Label("Kod Waluty"))
+     @(Html.Kendo().AutoCompleteFor(m=>m.Nowa.opis).Filter("startswith").Placeholder("Wybierz kod waluty").BindTo(new String[]{"usd","chf","eur"}).Separator(","))
+        <label asp-for="Nowa.ilość"></label>
+        <input asp-for="Nowa.ilość"/><br />
+        <button type="submit">Zatwierdź</button>
+    </form>
+</div>
